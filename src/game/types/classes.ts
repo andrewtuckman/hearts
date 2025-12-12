@@ -7,7 +7,7 @@ export class Game {
     scores: Scoreboard = new Scoreboard();
     round: number = 0;
     hands: Record<PID, Card[]> = {};
-    trick: Trick = new Trick(PIDs.NORTH);
+    trick: Trick = new Trick();
     bloodDrawn: boolean = false;
 
     constructor (players: Player[]) {
@@ -15,16 +15,52 @@ export class Game {
         for (const pid of Object.values(PIDs)) {
             this.hands[pid as PID] = [];
         }
+        const shuffledDeck = new Deck().shuffle();
+        this.dealCards(shuffledDeck);
+    }
+
+    dealCards(deck: Deck) {
+        for (const player of this.players) {
+            this.hands[player.id] = [];
+        }
+        // Deal cards one by one in a round-robin fashion
+        for (let i = 0; i < deck.cards.length; i++) {
+            const pid = this.players[i % this.players.length].id;
+            this.hands[pid].push(deck.cards[i]);
+        }
     }
 }
 
 export class Trick {
-    leader: PID;
-    cards: Record<PID, Card | null>;
+    leader: PID | null = null;
+    cards: Record<PID, Card | null> = createPlayerDict(null);
 
-    constructor (leader: PID) {
-        this.leader = leader;
-        this.cards = createPlayerDict(null);
+    playCard (pid: PID, card: Card) {
+        if (this.cards[pid] !== null) {
+            throw new Error(`Player ${pid} has already played a card this trick.`);
+        }
+        this.cards[pid] = card;
+    }
+
+    resolveTrick (): PID {
+        for (const card in Object.values(this.cards)) {
+            if (card === null) {
+                throw new Error("Not all players have played their cards yet.");
+            }
+        }
+        if (this.leader === null) {
+            throw new Error("Leader is not set for this trick.");
+        }
+        const leadCard = this.cards[this.leader];
+        let winningPID = this.leader;
+        for (const pid of Object.values(PIDs)) {
+            const card = this.cards[pid];
+            if (card && card.suit === leadCard!.suit) {
+                if (RanksOrder[card.rank] > RanksOrder[leadCard!.rank]) {
+                    winningPID = pid as PID;
+                }
+            }
+        }
     }
 }
 
@@ -54,6 +90,14 @@ export class Deck {
                 this.cards.push({ suit, rank });
             }
         }
+    }
+
+    shuffle () {
+        for (let i = this.cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+        }
+        return this;
     }
 }
 
