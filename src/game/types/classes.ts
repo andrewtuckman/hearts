@@ -1,4 +1,4 @@
-import { LOSING_SCORE, Phases, PIDs, Ranks, SHOOT_THE_MOON_SCORE, Suits } from "./constants";
+import { LOSING_SCORE, Phases, PIDs, Ranks, RanksOrder, SHOOT_THE_MOON_SCORE, Suits } from "./constants";
 import { Phase, PID } from "./types";
 
 export class Game {
@@ -61,6 +61,7 @@ export class Trick {
                 }
             }
         }
+        return winningPID;
     }
 }
 
