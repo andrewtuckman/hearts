@@ -1,4 +1,4 @@
-import { Deck, Game } from "../types/classes";
+import { Deck } from "../types/classes";
 import { Hands } from "../types/types";
 
 export function passCards(hands: Hands, fromPID: string, toPID: string, cardsToPass: Deck): void {
