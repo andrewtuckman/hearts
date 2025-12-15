@@ -1,3 +1,4 @@
+import { Card } from "./classes";
 import { Phases, PIDs, Suits, Ranks } from "./constants";
 
 export type Phase = typeof Phases[keyof typeof Phases];
@@ -10,3 +11,5 @@ export type Suit = typeof Suits[keyof typeof Suits];
 
 
 export type Rank = typeof Ranks[keyof typeof Ranks];
+
+export type Hands = Record<PID, Card[]>;

@@ -1,12 +1,12 @@
 import { LOSING_SCORE, Phases, PIDs, Ranks, RanksOrder, SHOOT_THE_MOON_SCORE, Suits } from "./constants";
-import { Phase, PID } from "./types";
+import { Hands, Phase, PID } from "./types";
 
 export class Game {
     players: Player[];
     phase: Phase = Phases.DEALING;
     scores: Scoreboard = new Scoreboard();
     round: number = 0;
-    hands: Record<PID, Card[]> = {};
+    hands: Hands = createPlayerDict([]);
     trick: Trick = new Trick();
     bloodDrawn: boolean = false;
 
