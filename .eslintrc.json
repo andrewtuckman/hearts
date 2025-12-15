@@ -1,0 +1,6 @@
+{
+  "extends": ["react-app", "react-app/jest"],
+  "rules": {
+    // Add project-specific rule overrides here if needed
+  }
+}
