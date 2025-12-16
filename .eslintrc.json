@@ -1,6 +1,14 @@
 {
   "extends": ["react-app", "react-app/jest"],
   "rules": {
-    // Add project-specific rule overrides here if needed
+    // enforce no space before function parentheses (use TS rule to avoid plugin conflicts)
+    "space-before-function-paren": "off",
+    "@typescript-eslint/space-before-function-paren": ["error", "never"],
+
+    // disallow trailing whitespace at the ends of lines
+    "no-trailing-spaces": "error",
+
+    // disallow multiple empty lines; no empty lines at EOF
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }]
   }
 }
