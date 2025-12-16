@@ -2,32 +2,27 @@ import { LOSING_SCORE, Phases, PIDs, Ranks, RanksOrder, SHOOT_THE_MOON_SCORE, Su
 import { Hands, Phase, PID } from "./types";
 
 export class Game {
-    players: Player[];
+    readonly players: Player[];
+    readonly scores: Scoreboard = new Scoreboard();
     phase: Phase = Phases.DEALING;
-    scores: Scoreboard = new Scoreboard();
     round: number = 0;
     hands: Hands = createPlayerDict([]);
     trick: Trick = new Trick();
     bloodDrawn: boolean = false;
 
-    constructor (players: Player[]) {
+    constructor(players: Player[]) {
         this.players = players;
-        for (const pid of Object.values(PIDs)) {
-            this.hands[pid as PID] = [];
-        }
         const shuffledDeck = new Deck().shuffle();
-        this.dealCards(shuffledDeck);
+        this.hands = dealCardsToHands(shuffledDeck, players);
     }
 
-    dealCards(deck: Deck) {
-        for (const player of this.players) {
-            this.hands[player.id] = [];
-        }
-        // Deal cards one by one in a round-robin fashion
-        for (let i = 0; i < deck.cards.length; i++) {
-            const pid = this.players[i % this.players.length].id;
-            this.hands[pid].push(deck.cards[i]);
-        }
+    startNewRound() {
+        this.phase = Phases.DEALING;
+        this.round += 1;
+        const shuffledDeck = new Deck().shuffle();
+        this.hands = dealCardsToHands(shuffledDeck, this.players);
+        this.trick = new Trick();
+        this.bloodDrawn = false;
     }
 
     removeCardFromHand(pid: PID, card: Card) : Card {
@@ -50,18 +45,35 @@ export class Game {
     }
 }
 
+function initializeHands(players: Player[]): Hands {
+    const hands: Hands = {} as Hands;
+    for (const pid of players.map(player => player.id)) {
+        hands[pid] = [];
+    }
+    return hands;
+}
+
+function dealCardsToHands(deck: Deck, players: Player[]): Hands {
+    const hands = initializeHands(players);
+    for (let i = 0; i < deck.cards.length; i++) {
+        const pid = players[i % players.length].id;
+        hands[pid].push(deck.cards[i]);
+    }
+    return hands;
+}
+
 export class Trick {
     leader: PID | null = null;
     cards: Record<PID, Card | null> = createPlayerDict(null);
 
-    playCard (pid: PID, card: Card) {
+    playCard(pid: PID, card: Card) {
         if (this.cards[pid] !== null) {
             throw new Error(`Player ${pid} has already played a card this trick.`);
         }
         this.cards[pid] = card;
     }
 
-    resolveTrick (): PID {
+    resolveTrick(): PID {
         for (const card in Object.values(this.cards)) {
             if (card === null) {
                 throw new Error("Not all players have played their cards yet.");
@@ -89,7 +101,7 @@ export class Player {
     name: string;
     isHuman: boolean;
 
-    constructor (id: PID, name: string, isHuman: boolean) {
+    constructor(id: PID, name: string, isHuman: boolean) {
         this.id = id;
         this.name = name;
         this.isHuman = isHuman;
@@ -104,7 +116,7 @@ export interface Card {
 export class Deck {
     cards: Card[] = [];
 
-    constructor () {
+    constructor() {
         for (const suit of Object.values(Suits)) {
             for (const rank of Object.values(Ranks)) {
                 this.cards.push({ suit, rank });
@@ -112,7 +124,7 @@ export class Deck {
         }
     }
 
-    shuffle () {
+    shuffle() {
         for (let i = this.cards.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
@@ -125,16 +137,16 @@ export class Scoreboard {
     roundScores: Record<PID, number>;
     gameScores: Record<PID, number>;
 
-    constructor () {
+    constructor() {
         this.roundScores = createPlayerDict(0);
         this.gameScores = createPlayerDict(0);
     }
 
-    updateRoundScore (pid: PID, points: number) {
+    updateRoundScore(pid: PID, points: number) {
         this.roundScores[pid] += points;
     }
 
-    updateGameScore (roundScores: Record<PID, number>) {
+    updateGameScore(roundScores: Record<PID, number>) {
         // Check for "shooting the moon"
         const shooter = Object.entries(roundScores).find(([_, score]) => score === SHOOT_THE_MOON_SCORE);
         if (shooter) {
@@ -153,7 +165,7 @@ export class Scoreboard {
         this.roundScores = createPlayerDict(0);
     }
 
-    hasLoser (): boolean {
+    hasLoser(): boolean {
         return Object.values(this.gameScores).some(score => score >= LOSING_SCORE);
     }
 }
