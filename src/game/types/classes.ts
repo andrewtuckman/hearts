@@ -1,4 +1,4 @@
-import { LOSING_SCORE, Phases, PIDs, Ranks, RanksOrder, SHOOT_THE_MOON_SCORE, Suits } from "./constants";
+import { LOSING_SCORE, Phases, PIDs, Ranks, SHOOT_THE_MOON_SCORE, Suits } from "./constants";
 import { Hands, Phase, PID } from "./types";
 
 export class Game {
@@ -71,28 +71,6 @@ export class Trick {
             throw new Error(`Player ${pid} has already played a card this trick.`);
         }
         this.cards[pid] = card;
-    }
-
-    resolveTrick(): PID {
-        for (const card in Object.values(this.cards)) {
-            if (card === null) {
-                throw new Error("Not all players have played their cards yet.");
-            }
-        }
-        if (this.leader === null) {
-            throw new Error("Leader is not set for this trick.");
-        }
-        const leadCard = this.cards[this.leader];
-        let winningPID = this.leader;
-        for (const pid of Object.values(PIDs)) {
-            const card = this.cards[pid];
-            if (card && card.suit === leadCard!.suit) {
-                if (RanksOrder[card.rank] > RanksOrder[leadCard!.rank]) {
-                    winningPID = pid as PID;
-                }
-            }
-        }
-        return winningPID;
     }
 }
 
