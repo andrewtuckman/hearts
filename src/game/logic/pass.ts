@@ -1,7 +1,7 @@
 import { Deck } from "../types/classes";
-import { Hands } from "../types/types";
+import { Hands, PID } from "../types/types";
 
-export function passCards(hands: Hands, fromPID: string, toPID: string, cardsToPass: Deck): void {
+export function passCards(hands: Hands, fromPID: PID, toPID: PID, cardsToPass: Deck): void {
     // Remove cards from the 'from' player's hand
     for (const card of cardsToPass.cards) {
         const index = hands[fromPID].findIndex(
