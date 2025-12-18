@@ -2,7 +2,7 @@ import { Trick } from "../types/classes";
 import { PIDs, RanksOrder } from "../types/constants";
 import { PID } from "../types/types";
 
-function resolveTrick(trick: Trick): PID {
+export function resolveTrick(trick: Trick): PID {
     const { leader, cards } = trick;
 
     for (const card in Object.values(cards)) {
