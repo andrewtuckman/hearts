@@ -7,8 +7,11 @@ import { PID } from '../types/types';
  * @param trick - The trick to resolve
  * @returns An object containing the winning player's ID and the points in the trick
  */
-export function resolveTrick(trick: Trick): {winningPID: PID; points: number} {
-  const { leaderPID , cards } = trick;
+export function resolveTrick(trick: Trick): {
+  winningPID: PID;
+  points: number;
+} {
+  const { leaderPID, cards } = trick;
 
   let points = 0;
   for (const card of Object.values(cards)) {

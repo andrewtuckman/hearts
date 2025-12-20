@@ -1,3 +1,4 @@
+import { createDeck, dealCardsToHands, shuffle } from '../logic/deck';
 import {
   LOSING_SCORE,
   Phases,
@@ -9,6 +10,7 @@ import {
 import { Hands, Phase, PID } from './types';
 
 export class Game {
+  readonly deck: Card[] = createDeck();
   readonly players: Player[];
   readonly scores: Scoreboard = new Scoreboard();
   phase: Phase = Phases.DEALING;
@@ -19,15 +21,15 @@ export class Game {
 
   constructor(players: Player[]) {
     this.players = players;
-    const shuffledDeck = new Deck().shuffle();
-    this.hands = dealCardsToHands(shuffledDeck, players);
+    const shuffledDeck = shuffle(this.deck);
+    this.hands = dealCardsToHands(shuffledDeck, this.hands);
   }
 
   startNewRound() {
     this.phase = Phases.DEALING;
     this.round += 1;
-    const shuffledDeck = new Deck().shuffle();
-    this.hands = dealCardsToHands(shuffledDeck, this.players);
+    const shuffledDeck = shuffle(this.deck);
+    this.hands = dealCardsToHands(shuffledDeck, this.hands);
     this.trick = new Trick();
     this.bloodDrawn = false;
   }
@@ -71,15 +73,6 @@ function initializeHands(players: Player[]): Hands {
   return hands;
 }
 
-function dealCardsToHands(deck: Deck, players: Player[]): Hands {
-  const hands = initializeHands(players);
-  for (let i = 0; i < deck.cards.length; i++) {
-    const pid = players[i % players.length].id;
-    hands[pid].push(deck.cards[i]);
-  }
-  return hands;
-}
-
 export class Trick {
   leaderPID: PID | null = null;
   cards: Record<PID, Card | null> = createPlayerDict(null);
@@ -107,26 +100,6 @@ export class Player {
 export interface Card {
   suit: string;
   rank: string;
-}
-
-export class Deck {
-  cards: Card[] = [];
-
-  constructor() {
-    for (const suit of Object.values(Suits)) {
-      for (const rank of Ranks) {
-        this.cards.push({ suit, rank });
-      }
-    }
-  }
-
-  shuffle() {
-    for (let i = this.cards.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
-    }
-    return this;
-  }
 }
 
 export class Scoreboard {
