@@ -81,7 +81,7 @@ function dealCardsToHands(deck: Deck, players: Player[]): Hands {
 }
 
 export class Trick {
-  leader: PID | null = null;
+  leaderPID: PID | null = null;
   cards: Record<PID, Card | null> = createPlayerDict(null);
 
   playCard(pid: PID, card: Card) {
