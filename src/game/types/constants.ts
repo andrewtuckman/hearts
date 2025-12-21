@@ -45,3 +45,10 @@ export const Suits = {
   CLUBS: 'clubs',
   SPADES: 'spades',
 };
+
+export const PassingDirections = {
+  LEFT: 'left',
+  RIGHT: 'right',
+  ACROSS: 'across',
+  HOLD: 'hold',
+} as const;
