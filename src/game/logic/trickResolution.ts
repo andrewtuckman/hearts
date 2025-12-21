@@ -1,5 +1,5 @@
 import { Card, Trick } from '../types/classes';
-import { PIDs, RanksOrder } from '../types/constants';
+import { PIDs, RanksOrder, Suits } from '../types/constants';
 import { PID } from '../types/types';
 
 /**
@@ -18,9 +18,10 @@ export function resolveTrick(trick: Trick): {
     if (card === null) {
       throw new Error('Not all players have played their cards yet.');
     }
-    if (card.suit === 'hearts') {
+
+    if (card.suit === Suits.HEARTS) {
       points += 1;
-    } else if (card.suit === 'spades' && card.rank === 'Q') {
+    } else if (card.suit === Suits.SPADES && card.rank === 'Q') {
       points += 13;
     }
   }
