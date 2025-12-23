@@ -1,14 +1,21 @@
-import { Deck } from '../types/classes';
+import { Card } from '../types/classes';
 import { Hands, PID } from '../types/types';
 
+/**
+ * Passes cards from one player's hand to another's.
+ * @param hands - Dictionary with PIDs as keys and an array of Card objects as values
+ * @param fromPID - PID of the player passing the cards
+ * @param toPID - PID of the player receiving the cards
+ * @param cardsToPass - Array of Card objects to pass
+ */
 export function passCards(
   hands: Hands,
   fromPID: PID,
   toPID: PID,
-  cardsToPass: Deck
+  cardsToPass: Card[]
 ): void {
   // Remove cards from the 'from' player's hand
-  for (const card of cardsToPass.cards) {
+  for (const card of cardsToPass) {
     const index = hands[fromPID].findIndex(
       (c) => c.suit === card.suit && c.rank === card.rank
     );
@@ -22,5 +29,5 @@ export function passCards(
   }
 
   // Add cards to the 'to' player's hand
-  hands[toPID].push(...cardsToPass.cards);
+  hands[toPID].push(...cardsToPass);
 }
