@@ -1,12 +1,27 @@
-# Hearts
+# :hearts: Hearts :hearts:
 
-Hearts card game
+Welcome to **Hearts**, a classic trick-taking card game brought to life in this digital implementation! Gather your friends (or AI opponents) and enjoy the strategic and competitive gameplay of Hearts, where the goal is to avoid certain cards—or embrace them to "shoot the moon" and turn the tables on your opponents.
 
-# Getting Started with Create React App
+## Game Rules
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- **Objective**: Score the fewest points by the end of the game. The game ends when a player reaches 100 points, and the player with the lowest score wins.
+- **Card Values**:
+  - Each heart :hearts: is worth 1 point.
+  - The Queen of Spades :spades: is worth 13 points.
+- **Gameplay**:
+  1. Players are dealt 13 cards each.
+  2. At the start of each round, players pass 3 cards to another player (left, right, across, or hold, depending on the round).
+  3. The player with the 2 of Clubs :clubs: plays first.
+  4. Players take turns playing one card per trick, following the suit of the first card played if possible.
+  5. The player who wins the trick collects all cards and starts the next trick.
+  6. Hearts :hearts: and the Queen of Spades :spades: cannot be played on the first trick.
+- **Scoring**:
+  - At the end of each round, players tally their points based on the cards they collected.
+  - If a player collects all hearts :hearts: and the Queen of Spades :spades:, they "shoot the moon," giving 26 points to all other players instead of themselves.
 
-## Available Scripts
+Are you ready to outwit your opponents and master the art of Hearts? Let the game begin!
+
+## Getting Started
 
 In the project directory, you can run:
 
@@ -42,33 +57,3 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
