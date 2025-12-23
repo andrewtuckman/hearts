@@ -1,4 +1,4 @@
-import { Card, Trick } from '../types/classes';
+import { Trick } from '../types/classes';
 import { PIDs, RanksOrder, Suits } from '../types/constants';
 import { PID } from '../types/types';
 
