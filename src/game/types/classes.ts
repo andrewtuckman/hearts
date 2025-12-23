@@ -1,12 +1,6 @@
 import { createDeck, dealCardsToHands, shuffle } from '../logic/deck';
-import {
-  LOSING_SCORE,
-  Phases,
-  PIDs,
-  Ranks,
-  SHOOT_THE_MOON_SCORE,
-  Suits,
-} from './constants';
+import { createPlayerDict } from '../utils/utils';
+import { Phases } from './constants';
 import { Hands, Phase, PID } from './types';
 
 export class Game {
@@ -65,14 +59,6 @@ export class Game {
   }
 }
 
-function initializeHands(players: Player[]): Hands {
-  const hands: Hands = {} as Hands;
-  for (const pid of players.map((player) => player.id)) {
-    hands[pid] = [];
-  }
-  return hands;
-}
-
 export class Trick {
   leaderPID: PID | null = null;
   cards: Record<PID, Card | null> = createPlayerDict(null);
@@ -110,42 +96,4 @@ export class Scoreboard {
     this.roundScores = createPlayerDict(0);
     this.gameScores = createPlayerDict(0);
   }
-
-  updateRoundScore(pid: PID, points: number) {
-    this.roundScores[pid] += points;
-  }
-
-  updateGameScore(roundScores: Record<PID, number>) {
-    // Check for "shooting the moon"
-    const shooter = Object.entries(roundScores).find(
-      ([_, score]) => score === SHOOT_THE_MOON_SCORE
-    );
-    if (shooter) {
-      const [shooterPID] = shooter;
-      for (const pid of Object.values(PIDs)) {
-        if (pid !== shooterPID) {
-          this.gameScores[pid as PID] += SHOOT_THE_MOON_SCORE;
-        }
-      }
-    } else {
-      for (const pid of Object.values(PIDs)) {
-        this.gameScores[pid as PID] += roundScores[pid as PID];
-      }
-    }
-    // Reset round scores
-    this.roundScores = createPlayerDict(0);
-  }
-
-  hasLoser(): boolean {
-    return Object.values(this.gameScores).some(
-      (score) => score >= LOSING_SCORE
-    );
-  }
-}
-
-function createPlayerDict(initValue: any): Record<PID, any> {
-  return Object.values(PIDs).reduce((accum, pid) => {
-    accum[pid as PID] = initValue;
-    return accum;
-  }, {} as Record<PID, any>);
 }
