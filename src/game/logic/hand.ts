@@ -4,6 +4,10 @@ import { Card } from '../types/classes';
 /**
  * Remove a single card from a player's hand (mutates hands) and return it.
  * Throws if not found or hand empty.
+ * @param hands - Dictionary with PIDs as keys and an array of Card objects as values
+ * @param pid - PID of the player whose hand to modify
+ * @param card - Card object to remove
+ * @returns The removed Card object
  */
 export function removeCardFromHand(hands: Hands, pid: PID, card: Card): Card {
   const hand = hands[pid];
@@ -29,6 +33,9 @@ export function removeCardFromHand(hands: Hands, pid: PID, card: Card): Card {
 
 /**
  * Add cards to a player's hand (mutates hands).
+ * @param hands - Dictionary with PIDs as keys and an array of Card objects as values
+ * @param pid - PID of the player whose hand to modify
+ * @param cards - Array of Card objects to add
  */
 export function addCardsToHand(hands: Hands, pid: PID, cards: Card[]): void {
   hands[pid].push(...cards);
