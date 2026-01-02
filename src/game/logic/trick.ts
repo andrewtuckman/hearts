@@ -1,6 +1,21 @@
-import { Trick } from '../types/classes';
+import { Card, Trick } from '../types/classes';
 import { PIDs, RanksOrder, Suits } from '../types/constants';
 import { PID } from '../types/types';
+
+/**
+ * Plays a card for a player in the given trick.
+ * @param trick - The current trick
+ * @param pid - The player ID
+ * @param card - The card to play
+ * @returns The updated trick
+ */
+export function playCard(trick: Trick, pid: PID, card: Card) {
+  if (trick.cards[pid] !== null) {
+    throw new Error(`Player ${pid} has already played a card this trick.`);
+  }
+  trick.cards[pid] = card;
+  return trick;
+}
 
 /**
  * Resolves the winner of a trick and calculates the points associated.

@@ -62,13 +62,6 @@ export class Game {
 export class Trick {
   leaderPID: PID | null = null;
   cards: Record<PID, Card | null> = createPlayerDict(null);
-
-  playCard(pid: PID, card: Card) {
-    if (this.cards[pid] !== null) {
-      throw new Error(`Player ${pid} has already played a card this trick.`);
-    }
-    this.cards[pid] = card;
-  }
 }
 
 export class Player {
