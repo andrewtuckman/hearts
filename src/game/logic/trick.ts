@@ -1,18 +1,22 @@
 import { Card, Trick } from '../types/classes';
 import { PIDs, RanksOrder, Suits } from '../types/constants';
-import { PID } from '../types/types';
+import { PID, Hands } from '../types/types';
+import { removeCardFromHand } from './hand';
 
 /**
- * Plays a card for a player in the given trick.
+ * Plays a card for a player in the given trick and removes it from the player's hand.
  * @param trick - The current trick
+ * @param hands - The game hands (will be mutated)
  * @param pid - The player ID
  * @param card - The card to play
  * @returns The updated trick
  */
-export function playCard(trick: Trick, pid: PID, card: Card) {
+export function playCard(trick: Trick, hands: Hands, pid: PID, card: Card) {
   if (trick.cards[pid] !== null) {
     throw new Error(`Player ${pid} has already played a card this trick.`);
   }
+  // remove from hand (will throw if not present)
+  removeCardFromHand(hands, pid, card);
   trick.cards[pid] = card;
   return trick;
 }
