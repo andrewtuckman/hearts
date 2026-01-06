@@ -2,6 +2,8 @@
 
 Welcome to **Hearts**, a classic trick-taking card game brought to life in this digital implementation! Gather your friends (or AI opponents) and enjoy the strategic and competitive gameplay of Hearts, where the goal is to avoid certain cards—or embrace them to "shoot the moon" and turn the tables on your opponents.
 
+:warning: This game is a work in progress! :warning:
+
 ## Game Rules
 
 - **Objective**: Score the fewest points by the end of the game. The game ends when a player reaches 100 points, and the player with the lowest score wins.
