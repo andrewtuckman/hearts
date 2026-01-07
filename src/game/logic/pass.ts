@@ -2,6 +2,14 @@ import { Hands, PID } from '../models/types';
 import { PIDs, PassingDirections } from '../models/constants';
 import { Card } from '../models/classes';
 
+/**
+ * Pass selected cards between players according to the chosen direction.
+ *
+ * @param passSelections - Mapping of `PID` to the array of `Card`s that player wants to pass.
+ * @param hands - Current hands mapping of `PID` to their `Card[]`.
+ * @param direction - One of the `PassingDirections` values (left, right, across, hold).
+ * @returns Hands - A new `Hands` object reflecting cards after passing.
+ */
 export function passCards(
 	passSelections: Record<PID, Card[]>,
 	hands: Hands,
