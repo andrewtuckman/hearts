@@ -26,6 +26,7 @@ Testing and safety
 
 Commits and diffs
 - Keep diffs small and focused. Prefer a single logical change per commit.
+- Unless explicitely requested to do so, never ask to stage, commit, or push code.
 
 If unsure
 - Ask a clarifying question instead of guessing the intended behavior.
