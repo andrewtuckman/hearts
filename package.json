@@ -15,18 +15,22 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "typescript": "4.9.5",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
     "@types/jest": "^29.5.3",
     "@types/node": "^16.18.0",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "babel-jest": "^30.2.0",
     "eslint": "^8.42.0",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "typescript": "4.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --config=jest.config.js --runInBand",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix && npm run format",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\""
