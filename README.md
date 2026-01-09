@@ -2,7 +2,7 @@
 
 Welcome to **Hearts**, a classic trick-taking card game brought to life in this digital implementation! Gather your friends (or AI opponents) and enjoy the strategic and competitive gameplay of Hearts, where the goal is to avoid certain cards—or embrace them to "shoot the moon" and turn the tables on your opponents.
 
-:warning: This game is a work in progress! :warning:
+:warning: This game is a work in progress! There may be sections of the project structure that are incomplete or nonexistent. :warning:
 
 ## Project Structure
 
