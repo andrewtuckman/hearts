@@ -1,5 +1,5 @@
-import { PIDs } from '../models/constants';
-import { PID } from '../models/types';
+import { PIDs } from '../game/models/constants';
+import { PID } from '../game/models/types';
 
 /**
  * Creates a dictionary with PIDs as keys and the specified initial value.
