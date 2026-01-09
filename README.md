@@ -8,7 +8,7 @@ Welcome to **Hearts**, a classic trick-taking card game brought to life in this 
 
 ### `/src/game`
 Framework-agnostic game engine implemented in pure TypeScript.  
-Contains all Hearts rules, state transitions, scoring logic, and AI behavior.
+Contains all Hearts rules, state transitions, scoring and cards logic, and AI behavior.
 
 ### `/src/components`
 React UI layer organized by feature (Hand, Card, Trick, Scoreboard).  
@@ -21,10 +21,6 @@ Manages reducer updates, turn sequencing, and AI execution.
 ### `/src/context`
 Shared state and configuration using React Context.  
 Used selectively to avoid prop drilling while keeping state flow explicit.
-
-### `/src/utils`
-Generic utility functions with no game-specific assumptions.  
-Reusable helpers such as shuffling, cloning, and common transformations.
 
 ### `/src/assets`
 Static resources including card SVGs and optional audio.  
