@@ -1,4 +1,4 @@
-import { Hands, PID } from '../models/types';
+import { Hands, PassingDirection, PID } from '../models/types';
 import { PIDs, PassingDirections } from '../models/constants';
 import { Card } from '../models/classes';
 
@@ -13,7 +13,7 @@ import { Card } from '../models/classes';
 export function passCards(
 	passSelections: Record<PID, Card[]>,
 	hands: Hands,
-	direction: (typeof PassingDirections)[keyof typeof PassingDirections]
+	direction: PassingDirection
 ): Hands {
 	const orderedPIDs = Object.values(PIDs) as PID[];
 
