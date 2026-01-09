@@ -14,6 +14,10 @@ Contains all Hearts rules, state transitions, scoring and cards logic, and AI be
 React UI layer organized by feature (Hand, Card, Trick, Scoreboard).  
 Responsible only for rendering and user interaction, with no game logic.
 
+### `/src/utils`
+Generic utility functions with no game-specific assumptions.  
+Reusable helpers such as shuffling, cloning, and common transformations.
+
 ### `/src/hooks`
 Orchestration layer connecting the UI to the game engine.  
 Manages reducer updates, turn sequencing, and AI execution.
