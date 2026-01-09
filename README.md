@@ -4,6 +4,34 @@ Welcome to **Hearts**, a classic trick-taking card game brought to life in this 
 
 :warning: This game is a work in progress! :warning:
 
+## Project Structure
+
+### `/src/game`
+Framework-agnostic game engine implemented in pure TypeScript.  
+Contains all Hearts rules, state transitions, scoring logic, and AI behavior.
+
+### `/src/components`
+React UI layer organized by feature (Hand, Card, Trick, Scoreboard).  
+Responsible only for rendering and user interaction, with no game logic.
+
+### `/src/hooks`
+Orchestration layer connecting the UI to the game engine.  
+Manages reducer updates, turn sequencing, and AI execution.
+
+### `/src/context`
+Shared state and configuration using React Context.  
+Used selectively to avoid prop drilling while keeping state flow explicit.
+
+### `/src/utils`
+Generic utility functions with no game-specific assumptions.  
+Reusable helpers such as shuffling, cloning, and common transformations.
+
+### `/src/assets`
+Static resources including card SVGs and optional audio.  
+Separated from logic and UI for clean asset management.
+
+
+
 ## Game Rules
 
 - **Objective**: Score the fewest points by the end of the game. The game ends when a player reaches 100 points, and the player with the lowest score wins.
