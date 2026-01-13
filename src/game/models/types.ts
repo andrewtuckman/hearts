@@ -1,7 +1,8 @@
 import { Card } from './classes';
 import { Phases, PIDs, Suits, Ranks, PassingDirections } from './constants';
 
-export type PassingDirection = (typeof PassingDirections)[keyof typeof PassingDirections];
+export type PassingDirection =
+  (typeof PassingDirections)[keyof typeof PassingDirections];
 
 export type Phase = (typeof Phases)[keyof typeof Phases];
 
