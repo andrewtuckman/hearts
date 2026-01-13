@@ -1,0 +1,87 @@
+.card {
+  width: 96px;
+  height: 140px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: white;
+  padding: 4px; /* smaller padding to maximize image space */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  will-change: transform;
+}
+
+.card:hover:not(.disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Corners */
+
+.card-corner {
+  font-size: 14px;
+  line-height: 1;
+  z-index: 2; /* ensure corners appear above the image */
+}
+
+.rank {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.top-left {
+  align-self: flex-start;
+}
+
+.bottom-right {
+  align-self: flex-end;
+  transform: rotate(180deg);
+}
+
+/* Center */
+
+.card-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  position: relative;
+  padding: 0; /* remove padding to maximize image area */
+}
+
+.card-center img {
+  width: 100%; /* fill width */
+  height: 100%; /* fill height */
+  object-fit: contain; /* scale without distortion */
+  pointer-events: none;
+  user-select: none;
+  border-radius: 6px; /* optional: rounded corners for card effect */
+  z-index: 1; /* behind the corners */
+}
+
+/* Suit styling */
+
+.suit.large {
+  font-size: 40px;
+}
+
+.hearts,
+.diamonds {
+  color: #d32f2f;
+}
+
+.clubs,
+.spades {
+  color: #000;
+}

@@ -1,14 +1,13 @@
 import logo from '../logo.svg';
 import './App.css';
+import Card from './Card/Card';
 
 function App(): JSX.Element {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <Card suit="hearts" rank="Q"></Card>
         <a
           className="App-link"
           href="https://reactjs.org"
