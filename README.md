@@ -26,8 +26,8 @@ Manages reducer updates, turn sequencing, and AI execution.
 Shared state and configuration using React Context.  
 Used selectively to avoid prop drilling while keeping state flow explicit.
 
-### `/src/assets`
-Static resources including card SVGs and optional audio.  
+### `/public/cards
+Static resources including card SVGs.  
 Separated from logic and UI for clean asset management.
 This game uses images from [The Public Domain Review](https://publicdomainreview.org/).
 * Hearts: [The Lens of Desire: Eye Miniatures (ca. 1790–1810)](https://publicdomainreview.org/collection/eye-miniatures/)
