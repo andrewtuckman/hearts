@@ -1,0 +1,46 @@
+.hand-container {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.hand {
+  display: flex;
+  pointer-events: auto;
+}
+
+/* Overlapping cards at rest */
+.hand-card-wrapper {
+  margin-left: -40px;
+  transition:
+    transform 140ms ease,
+    z-index 140ms ease;
+  cursor: pointer;
+}
+
+.hand-card-wrapper:first-child {
+  margin-left: 0;
+}
+
+/* Only hovered card lifts */
+.hand-card-wrapper:hover {
+  transform: translateY(-22px);
+  z-index: 10;
+}
+
+/* Clicked / selected card lifts higher */
+.hand-card-wrapper.selected {
+  transform: translateY(-48px);
+  z-index: 20;
+}
+
+/* Disabled cards don't lift */
+.hand-card-wrapper:has(button:disabled):hover {
+  transform: none;
+  cursor: not-allowed;
+}
