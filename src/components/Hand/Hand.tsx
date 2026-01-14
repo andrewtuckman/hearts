@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import Card from "../Card/Card";
-import { Suit, Rank } from "../../game/models/types";
-import "./Hand.css";
+import React, { useState } from 'react';
+import Card from '../Card/Card';
+import { Suit, Rank } from '../../game/models/types';
+import './Hand.css';
 
 export interface HandCard {
   id: string;
@@ -32,9 +32,7 @@ export const Hand: React.FC<HandProps> = ({ cards, onPlayCard }) => {
           return (
             <div
               key={card.id}
-              className={`hand-card-wrapper ${
-                isSelected ? "selected" : ""
-              }`}
+              className={`hand-card-wrapper ${isSelected ? 'selected' : ''}`}
               onClick={() => handleCardClick(card)}
             >
               <Card

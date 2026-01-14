@@ -1,15 +1,24 @@
-import logo from '../logo.svg';
+import { Ranks, Suits } from '../game/models/constants';
 import './App.css';
-import Card from './Card/Card';
+import Hand, { HandCard } from './Hand/Hand';
 
 function App(): JSX.Element {
+  const heartsHand: HandCard[] = Ranks.map((rank) => ({
+    id: `hearts-${rank}`,
+    suit: Suits.HEARTS,
+    rank,
+    playable: true,
+  }));
+
+  const handlePlayCard = (card: HandCard) => {
+    console.log('Played card:', card);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <Card suit="hearts" rank="K"></Card>
-        <Card suit="hearts" rank="Q"></Card>
-        <Card suit="hearts" rank="J"></Card>
-      </header>
+      <div style={{ minHeight: '100vh', paddingBottom: '200px' }}>
+        <Hand cards={heartsHand} onPlayCard={handlePlayCard} />
+      </div>
     </div>
   );
 }

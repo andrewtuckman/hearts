@@ -17,9 +17,7 @@
 /* Overlapping cards at rest */
 .hand-card-wrapper {
   margin-left: -40px;
-  transition:
-    transform 140ms ease,
-    z-index 140ms ease;
+  transition: transform 140ms ease, z-index 140ms ease;
   cursor: pointer;
 }
 
