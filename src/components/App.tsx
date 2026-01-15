@@ -3,9 +3,9 @@ import './App.css';
 import Hand, { HandCard } from './Hand/Hand';
 
 function App(): JSX.Element {
-  const heartsHand: HandCard[] = Ranks.map((rank) => ({
-    id: `hearts-${rank}`,
-    suit: Suits.HEARTS,
+  const spadesHand: HandCard[] = Ranks.map((rank) => ({
+    id: `spades-${rank}`,
+    suit: Suits.SPADES,
     rank,
     playable: true,
   }));
@@ -17,7 +17,7 @@ function App(): JSX.Element {
   return (
     <div className="App">
       <div style={{ minHeight: '100vh', paddingBottom: '200px' }}>
-        <Hand cards={heartsHand} onPlayCard={handlePlayCard} />
+        <Hand cards={spadesHand} onPlayCard={handlePlayCard} />
       </div>
     </div>
   );
