@@ -28,7 +28,7 @@ Used selectively to avoid prop drilling while keeping state flow explicit.
 
 ### `/public/cards`
 Static resources including card SVGs.  
-Separated from logic and UI for clean asset management.
+Separated from logic and UI for clean asset management.  
 This game uses images from [The Public Domain Review](https://publicdomainreview.org/).
 * Hearts: [The Lens of Desire: Eye Miniatures (ca. 1790–1810)](https://publicdomainreview.org/collection/eye-miniatures/)
 * Spades: [Prophecies of apocalypse (ca. 1827–61)](https://pdimagearchive.org/images/63261fca-78ba-4b7e-b2f0-ab4505c4d35e/)
