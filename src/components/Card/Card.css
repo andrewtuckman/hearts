@@ -1,6 +1,6 @@
 .card {
-  width: 96px;
-  height: 140px;
+  width: 130px;
+  height: 185px;
   border-radius: 10px;
   border: 1px solid #ccc;
   background: white;
@@ -30,7 +30,7 @@
 /* Corners */
 
 .card-corner {
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1;
   z-index: 2; /* ensure corners appear above the image */
 }
