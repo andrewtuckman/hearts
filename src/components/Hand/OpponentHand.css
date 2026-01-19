@@ -1,0 +1,34 @@
+.opponent-hand {
+  position: absolute;
+  pointer-events: none;
+  overflow: visible; /* allow overlap */
+}
+
+/* NORTH (top, horizontal) */
+.opponent-hand--north {
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.45);
+  transform-origin: top center;
+}
+
+/* WEST (left, vertical) */
+.opponent-hand--west {
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg) scale(0.45);
+  transform-origin: center left;
+}
+
+/* EAST (right, vertical) */
+.opponent-hand--east {
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg) scale(0.45);
+  transform-origin: center right;
+}
+
+/* Explicitly hide south opponent */
+.opponent-hand--south {
+  display: none;
+}

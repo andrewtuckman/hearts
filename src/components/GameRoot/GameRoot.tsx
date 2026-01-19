@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Hand, { HandCard } from '../Hand/Hand';
+import OpponentHand from '../Hand/OpponentHand';
 import Trick, { TrickState } from '../Trick/Trick';
 import { Suits, Ranks } from '../../game/models/constants';
 import { PID } from '../../game/models/types';
@@ -8,8 +9,10 @@ import './GameRoot.css';
 const PLAYER_PID: PID = 'south';
 
 export const GameRoot: React.FC = () => {
-  // Temporary mock hand (player)
-  const [hand, setHand] = useState<HandCard[]>(() =>
+  /**
+   * Player hand (bottom)
+   */
+  const [playerHand, setPlayerHand] = useState<HandCard[]>(
     Ranks.map((rank) => ({
       id: `hearts-${rank}`,
       suit: Suits.HEARTS,
@@ -18,24 +21,49 @@ export const GameRoot: React.FC = () => {
     }))
   );
 
-  // Current trick (center of table)
+  /**
+   * Opponent hands (face-down)
+   */
+  const [opponentHands] = useState({
+    north: Array.from({ length: 13 }, (_, i) => ({ id: `n-${i}` })),
+    east: Array.from({ length: 13 }, (_, i) => ({ id: `e-${i}` })),
+    west: Array.from({ length: 13 }, (_, i) => ({ id: `w-${i}` })),
+  });
+
+  /**
+   * Current trick (center)
+   */
   const [trick, setTrick] = useState<TrickState>({});
 
+  /**
+   * Player plays a card
+   */
   const handlePlayCard = (card: HandCard) => {
-    // Remove card from hand
-    setHand((prev) => prev.filter((c) => c.id !== card.id));
+    // Remove from hand
+    setPlayerHand((prev) => prev.filter((c) => c.id !== card.id));
 
-    // Add card to trick
+    // Add to trick
     setTrick((prev) => ({
       ...prev,
-      [PLAYER_PID]: { suit: card.suit, rank: String(card.rank) },
+      [PLAYER_PID]: {
+        suit: card.suit,
+        rank: card.rank,
+      },
     }));
   };
 
   return (
     <div className="game-root">
-      <Trick trick={trick} leaderPID={null} />
-      <Hand cards={hand} onPlayCard={handlePlayCard} />
+      {/* Opponents */}
+<OpponentHand pid="north" cards={opponentHands.north} />
+<OpponentHand pid="west" cards={opponentHands.west} />
+<OpponentHand pid="east" cards={opponentHands.east} />
+
+      {/* Center trick */}
+      <Trick leaderPID={null} trick={trick} />
+
+      {/* Player hand */}
+      <Hand cards={playerHand} onPlayCard={handlePlayCard} />
     </div>
   );
 };
