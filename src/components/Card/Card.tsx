@@ -34,7 +34,7 @@ export const Card: React.FC<CardProps> = ({
       type="button"
     >
       <div className="card-corner top-left">
-        <span className="rank">{rank as string}</span>
+        <span className="rank">{rank}</span>
         <span className="suit">{suitSymbols[suit]}</span>
       </div>
 
@@ -43,7 +43,7 @@ export const Card: React.FC<CardProps> = ({
       </div>
 
       <div className="card-corner bottom-right">
-        <span className="rank">{rank as string}</span>
+        <span className="rank">{rank}</span>
         <span className="suit">{suitSymbols[suit]}</span>
       </div>
     </button>

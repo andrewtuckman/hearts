@@ -1,7 +1,7 @@
 import { createDeck, dealCardsToHands, shuffle } from '../logic/deck';
 import { createPlayerDict } from '../../utils/utils';
 import { Phases } from './constants';
-import { Hands, Phase, PID } from './types';
+import { Hands, Phase, PID, Suit, Rank } from './types';
 
 export class Game {
   readonly deck: Card[] = createDeck();
@@ -47,8 +47,8 @@ export class Player {
 }
 
 export interface Card {
-  suit: string;
-  rank: string;
+  suit: Suit;
+  rank: Rank;
 }
 
 export class Scoreboard {

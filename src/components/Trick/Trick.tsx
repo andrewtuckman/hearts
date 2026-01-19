@@ -27,7 +27,7 @@ export const Trick: React.FC<TrickProps> = ({ trick, leaderPID }) => {
       try {
         // Create a Trick object to pass to resolveTrick
         const cards = Object.entries(trick).reduce((acc, [pid, card]) => {
-          acc[pid as PID] = card ? { ...card, rank: String(card.rank) } : null;
+          acc[pid as PID] = card ? card : null;
           return acc;
         }, {} as Record<PID, CardInterface | null>);
 
