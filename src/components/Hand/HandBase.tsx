@@ -14,10 +14,7 @@ interface HandBaseProps {
   renderCard: (card: BaseHandCard) => React.ReactNode;
 }
 
-export const HandBase: React.FC<HandBaseProps> = ({
-  cards,
-  renderCard,
-}) => {
+export const HandBase: React.FC<HandBaseProps> = ({ cards, renderCard }) => {
   return (
     <div className="hand-container">
       <div className="hand">

@@ -6,7 +6,7 @@ import { HandCard } from './Hand/Hand';
 function App(): JSX.Element {
   return (
     <div className="App">
-      <GameRoot/>
+      <GameRoot />
     </div>
   );
 }

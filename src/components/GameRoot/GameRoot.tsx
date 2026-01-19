@@ -55,9 +55,9 @@ export const GameRoot: React.FC = () => {
   return (
     <div className="game-root">
       {/* Opponents */}
-<OpponentHand pid="north" cards={opponentHands.north} />
-<OpponentHand pid="west" cards={opponentHands.west} />
-<OpponentHand pid="east" cards={opponentHands.east} />
+      <OpponentHand pid="north" cards={opponentHands.north} />
+      <OpponentHand pid="west" cards={opponentHands.west} />
+      <OpponentHand pid="east" cards={opponentHands.east} />
 
       {/* Center trick */}
       <Trick leaderPID={null} trick={trick} />
