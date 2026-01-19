@@ -39,7 +39,7 @@ export const Card: React.FC<CardProps> = ({
       </div>
 
       <div className="card-center">
-        <img src={imageSrc} alt="" draggable={false} loading="lazy" />
+        <img src={imageSrc} alt="" draggable={false} />
       </div>
 
       <div className="card-corner bottom-right">

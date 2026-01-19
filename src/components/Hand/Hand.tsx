@@ -33,12 +33,12 @@ export const Hand: React.FC<HandProps> = ({ cards, onPlayCard }) => {
             <div
               key={card.id}
               className={`hand-card-wrapper ${isSelected ? 'selected' : ''}`}
-              onClick={() => handleCardClick(card)}
             >
               <Card
                 suit={card.suit}
                 rank={card.rank}
                 disabled={!card.playable}
+                onClick={() => handleCardClick(card)}
               />
             </div>
           );
