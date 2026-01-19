@@ -1,0 +1,47 @@
+.trick-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.trick-table {
+  position: relative;
+  width: 280px;
+  height: 280px;
+}
+
+/* Base card position */
+.trick-card {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+/* Player-relative positions */
+.trick-card--north {
+  top: 0%;
+  left: 50%;
+}
+
+.trick-card--south {
+  top: 100%;
+  left: 50%;
+}
+
+.trick-card--east {
+  top: 50%;
+  left: 100%;
+}
+
+.trick-card--west {
+  top: 50%;
+  left: 0%;
+}
+
+/* Winning card highlight */
+.trick-card--winning {
+  filter: drop-shadow(0 0 8px #ffd700) brightness(1.1);
+  z-index: 10;
+}
