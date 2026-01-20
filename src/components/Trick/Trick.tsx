@@ -59,7 +59,7 @@ export const Trick: React.FC<TrickProps> = ({ trick, leaderPID }) => {
                 isWinning ? 'trick-card--winning' : ''
               }`}
             >
-              <Card suit={card.suit} rank={card.rank as Rank} disabled />
+              <Card suit={card.suit} rank={card.rank as Rank} />
             </div>
           );
         })}
