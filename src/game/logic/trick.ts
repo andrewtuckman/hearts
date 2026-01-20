@@ -45,15 +45,18 @@ export function resolveTrick(trick: Trick): {
     }
   }
   if (leaderPID === null) {
+    console.error('Trick has no leaderPID when resolving trick:', trick);
     throw new Error('Leader is not set for this trick.');
   }
   const leadCard = cards[leaderPID];
   let winningPID = leaderPID;
+  let winningCard = leadCard;
   for (const pid of Object.values(PIDs)) {
     const card = cards[pid];
     if (card && card.suit === leadCard!.suit) {
-      if (RanksOrder[card.rank] > RanksOrder[leadCard!.rank]) {
+      if (RanksOrder[card.rank] > RanksOrder[winningCard!.rank]) {
         winningPID = pid as PID;
+        winningCard = card;
       }
     }
   }
