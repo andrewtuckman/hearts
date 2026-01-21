@@ -39,7 +39,7 @@ export const GameRoot: React.FC = () => {
    */
   const [trick, setTrick] = useState<TrickState>({
     north: { suit: Suits.SPADES, rank: 'K' },
-    east: { suit: Suits.SPADES, rank: '5' },
+    east: { suit: Suits.DIAMONDS, rank: 'Q' },
     west: { suit: Suits.HEARTS, rank: 'J' },
   });
 
