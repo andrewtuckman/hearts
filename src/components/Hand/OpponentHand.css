@@ -33,3 +33,14 @@
 .opponent-hand--south {
   display: none;
 }
+
+/* Disable animations in opponent hands */
+.opponent-hand .hand-card-wrapper {
+  transition: none;
+  cursor: default;
+}
+
+.opponent-hand .hand-card-wrapper:hover {
+  transform: none;
+  z-index: auto;
+}
