@@ -37,7 +37,11 @@ export const GameRoot: React.FC = () => {
   /**
    * Current trick (center)
    */
-  const [trick, setTrick] = useState<TrickState>({north: { suit: Suits.SPADES, rank: 'K'}, east: { suit: Suits.SPADES, rank: '5'}, west: { suit: Suits.HEARTS, rank: 'J' }});
+  const [trick, setTrick] = useState<TrickState>({
+    north: { suit: Suits.SPADES, rank: 'K' },
+    east: { suit: Suits.SPADES, rank: '5' },
+    west: { suit: Suits.HEARTS, rank: 'J' },
+  });
 
   /**
    * Player plays a card
