@@ -1,8 +1,10 @@
 .opponent-hand {
   position: absolute;
+  display: flex;
+  justify-content: center;
   pointer-events: none;
-  overflow: visible; /* allow overlap */
 }
+
 
 /* NORTH (top, horizontal) */
 .opponent-hand--north {

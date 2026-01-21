@@ -1,8 +1,8 @@
 import React from 'react';
 import HandBase from './HandBase';
-import Card from '../Card/Card';
 import { PID } from '../../game/models/types';
 import './OpponentHand.css';
+import CardBack from '../Card/CardBack';
 
 interface OpponentCard {
   id: string;
@@ -16,14 +16,10 @@ interface OpponentHandProps {
 export const OpponentHand: React.FC<OpponentHandProps> = ({ pid, cards }) => {
   return (
     <div className={`opponent-hand opponent-hand--${pid}`}>
-      <HandBase
+        <HandBase
         cards={cards}
-        renderCard={() => (
-          <div className="opponent-card">
-            <Card suit="hearts" rank="A" disabled />
-          </div>
-        )}
-      />
+        renderCard={() => <CardBack size="small" />}
+        />
     </div>
   );
 };
