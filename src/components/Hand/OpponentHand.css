@@ -8,7 +8,7 @@
 
 /* NORTH (top, horizontal) */
 .opponent-hand--north {
-  top: 12px;
+  top: 70px;
   left: 50%;
   transform: translateX(-50%) scale(0.45);
   transform-origin: top center;
