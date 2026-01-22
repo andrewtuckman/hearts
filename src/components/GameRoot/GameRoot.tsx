@@ -4,10 +4,6 @@ import OpponentHand from '../Hand/OpponentHand';
 import Trick, { TrickState } from '../Trick/Trick';
 import { Suits, Ranks } from '../../game/models/constants';
 import { PID } from '../../game/models/types';
-import {
-  Trick as TrickClass,
-  Card as CardInterface,
-} from '../../game/models/classes';
 import './GameRoot.css';
 
 const PLAYER_PID: PID = 'south';
@@ -18,8 +14,8 @@ export const GameRoot: React.FC = () => {
    */
   const [playerHand, setPlayerHand] = useState<HandCard[]>(
     Ranks.map((rank) => ({
-      id: `spades-${rank}`,
-      suit: Suits.SPADES,
+      id: `diamonds-${rank}`,
+      suit: Suits.DIAMONDS,
       rank,
       playable: true,
     }))
