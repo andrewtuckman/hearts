@@ -2,37 +2,35 @@
 
 Welcome to **Hearts**, a classic trick-taking card game brought to life in this digital implementation! Gather your friends (or AI opponents) and enjoy the strategic and competitive gameplay of Hearts, where the goal is to avoid certain cards—or embrace them to "shoot the moon" and turn the tables on your opponents.
 
-:warning: This game is a work in progress! There may be sections of the project structure that are incomplete or nonexistent. :warning:
+:warning: This game is a work in progress! :warning:
+
+## 📚 Documentation
+
+**Start here**: [Complete Architecture Documentation](./docs/ARCHITECTURE.md)
+
+Key documents:
+- [System Overview](./docs/architecture/SYSTEM_OVERVIEW.md) - High-level design and components
+- [Data Flow](./docs/design/DATA_FLOW.md) - State management and game flow
+- [Bot System Plan](./docs/architecture/BOT_SYSTEM.md) - AI implementation details
+- [Bot Implementation Guide](./docs/implementation/BOT_IMPLEMENTATION_GUIDE.md) - Step-by-step development
+- [Development Setup](./docs/implementation/SETUP.md) - Getting started
 
 ## Project Structure
 
-### `/src/game`
-Framework-agnostic game engine implemented in pure TypeScript.  
-Contains all Hearts rules, state transitions, scoring and cards logic, and AI behavior.
+For detailed architecture, see [SYSTEM_OVERVIEW.md](./docs/architecture/SYSTEM_OVERVIEW.md).
 
-### `/src/components`
-React UI layer organized by feature (Hand, Card, Trick, Scoreboard).  
-Responsible only for rendering and user interaction, with no game logic.
-
-### `/public/cards`
+- **`/src/game`** - TypeScript game engine (rules, logic, AI)
+- **`/src/components`** - React UI components
+- **`/src/utils`** - Utility functions
+- **`/docs`** - Complete documentation
+- **`/src/hooks`** - WIP
+- **`/src/context`** - WIP
+- **`/public/cards`** -
 Static resources including card SVGs.  
-Separated from logic and UI for clean asset management.  
 This game uses images from [The Public Domain Review](https://publicdomainreview.org/).
 * Hearts: [The Lens of Desire: Eye Miniatures (ca. 1790–1810)](https://publicdomainreview.org/collection/eye-miniatures/)
 * Spades: [Prophecies of apocalypse (ca. 1827–61)](https://pdimagearchive.org/images/63261fca-78ba-4b7e-b2f0-ab4505c4d35e/)
 * Diamonds: [The Cat’s Maew: Thai Treatise on Auspicious Felines (19th Century)](https://publicdomainreview.org/collection/tamra-maew/)
-
-### `/src/utils`
-Generic utility functions with no game-specific assumptions.  
-Reusable helpers such as shuffling, cloning, and common transformations.
-
-### `/src/hooks`
-Orchestration layer connecting the UI to the game engine.  
-Manages reducer updates, turn sequencing, and AI execution.
-
-### `/src/context`
-Shared state and configuration using React Context.  
-Used selectively to avoid prop drilling while keeping state flow explicit.
 
 ## Game Rules
 
@@ -55,37 +53,4 @@ Are you ready to outwit your opponents and master the art of Hearts? Let the gam
 
 ## Getting Started
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+For development setup, see [SETUP.md](./docs/implementation/SETUP.md).
