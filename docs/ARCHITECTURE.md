@@ -64,7 +64,7 @@ See [BOT_SYSTEM.md](./architecture/BOT_SYSTEM.md) for detailed specifications.
 3. **Building**: `npm run build` - Production build
 4. **Development**: `npm start` - Dev server with hot reload
 
-Pre-commit hooks enforce linting and testing before commits.
+Pre-commit hooks enforce linting (and eventually testing) before commits.
 
 ## 📚 Understanding the Codebase
 
