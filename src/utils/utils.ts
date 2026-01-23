@@ -12,3 +12,7 @@ export function createPlayerDict(initValue: any): Record<PID, any> {
     return accum;
   }, {} as Record<PID, any>);
 }
+
+export function getRandomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
