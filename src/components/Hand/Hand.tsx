@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import HandBase from './HandBase';
 import Card from '../Card/Card';
-import { Suit, Rank } from '../../game/models/types';
-
-export interface HandCard {
-  id: string;
-  suit: Suit;
-  rank: Rank;
-  playable?: boolean;
-}
+import { HandCard } from '../../models/types';
 
 interface HandProps {
   cards: HandCard[];

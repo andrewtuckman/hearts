@@ -14,3 +14,10 @@ export type Suit = (typeof Suits)[keyof typeof Suits];
 export type Rank = (typeof Ranks)[number];
 
 export type Hands = Record<PID, Card[]>;
+
+export type HandCard = {
+  id: string;
+  suit: Suit;
+  rank: Rank;
+  playable?: boolean;
+};

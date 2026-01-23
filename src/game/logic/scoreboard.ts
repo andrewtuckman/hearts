@@ -1,6 +1,10 @@
-import { Scoreboard } from '../models/classes';
-import { LOSING_SCORE, PIDs, SHOOT_THE_MOON_SCORE } from '../models/constants';
-import { PID } from '../models/types';
+import { Scoreboard } from '../../models/classes';
+import {
+  LOSING_SCORE,
+  PIDs,
+  SHOOT_THE_MOON_SCORE,
+} from '../../models/constants';
+import { PID } from '../../models/types';
 import { createPlayerDict } from '../../utils/utils';
 
 /**

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import Hand, { HandCard } from '../Hand/Hand';
+import Hand from '../Hand/Hand';
+import { HandCard } from '../../models/types';
 import OpponentHand from '../Hand/OpponentHand';
 import Trick, { TrickState } from '../Trick/Trick';
-import { Suits, Ranks } from '../../game/models/constants';
-import { PID } from '../../game/models/types';
+import { Suits, Ranks } from '../../models/constants';
+import { PID } from '../../models/types';
 import './GameRoot.css';
 
 const PLAYER_PID: PID = 'south';

@@ -1,6 +1,6 @@
 import React from 'react';
 import HandBase from './HandBase';
-import { PID } from '../../game/models/types';
+import { PID } from '../../models/types';
 import './OpponentHand.css';
 import CardBack from '../Card/CardBack';
 

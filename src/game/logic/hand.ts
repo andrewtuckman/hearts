@@ -1,5 +1,5 @@
-import { Hands, PID } from '../models/types';
-import { Card } from '../models/classes';
+import { Hands, PID } from '../../models/types';
+import { Card } from '../../models/classes';
 
 /**
  * Remove a single card from a player's hand (mutates hands) and return it.

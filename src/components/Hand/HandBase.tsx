@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from '../Card/Card';
-import { Suit, Rank } from '../../game/models/types';
+import { Suit, Rank } from '../../models/types';
 import './Hand.css';
 
 export interface BaseHandCard {

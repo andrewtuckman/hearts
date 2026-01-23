@@ -1,6 +1,6 @@
-import { Hands, PassingDirection, PID } from '../models/types';
-import { PIDs, PassingDirections } from '../models/constants';
-import { Card } from '../models/classes';
+import { Hands, PassingDirection, PID } from '../../models/types';
+import { PIDs, PassingDirections } from '../../models/constants';
+import { Card } from '../../models/classes';
 
 /**
  * Pass selected cards between players according to the chosen direction.

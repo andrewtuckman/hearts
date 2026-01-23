@@ -1,6 +1,6 @@
-import { Card } from '../models/classes';
-import { PIDs, Ranks, Suits } from '../models/constants';
-import { Hands } from '../models/types';
+import { Card } from '../../models/classes';
+import { PIDs, Ranks, Suits } from '../../models/constants';
+import { Hands } from '../../models/types';
 
 /**
  * Uses the Ranks and Suits constants to create a 52-card deck

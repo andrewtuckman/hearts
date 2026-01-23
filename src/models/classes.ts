@@ -1,5 +1,5 @@
-import { createDeck, dealCardsToHands, shuffle } from '../logic/deck';
-import { createPlayerDict } from '../../utils/utils';
+import { createDeck, dealCardsToHands, shuffle } from '../game/logic/deck';
+import { createPlayerDict } from '../utils/utils';
 import { Phases } from './constants';
 import { Hands, Phase, PID, Suit, Rank } from './types';
 

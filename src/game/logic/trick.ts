@@ -1,6 +1,6 @@
-import { Card, Trick } from '../models/classes';
-import { PIDs, RanksOrder, Suits } from '../models/constants';
-import { PID, Hands } from '../models/types';
+import { Card, Trick } from '../../models/classes';
+import { PIDs, RanksOrder, Suits } from '../../models/constants';
+import { PID, Hands } from '../../models/types';
 import { removeCardFromHand } from './hand';
 
 /**

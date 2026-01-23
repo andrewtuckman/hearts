@@ -1,7 +1,7 @@
 import React from 'react';
 import './Card.css';
-import { Rank, Suit } from '../../game/models/types';
-import { Suits } from '../../game/models/constants';
+import { Rank, Suit } from '../../models/types';
+import { Suits } from '../../models/constants';
 
 interface CardProps {
   suit: Suit;

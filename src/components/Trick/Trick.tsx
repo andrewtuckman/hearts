@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Card from '../Card/Card';
-import { PID, Suit, Rank } from '../../game/models/types';
+import { PID, Suit, Rank } from '../../models/types';
 import { resolveTrick } from '../../game/logic/trick';
 import {
   Trick as TrickClass,
   Card as CardInterface,
-} from '../../game/models/classes';
-import { PIDs } from '../../game/models/constants';
+} from '../../models/classes';
+import { PIDs } from '../../models/constants';
 import './Trick.css';
 
 export type TrickState = Partial<Record<PID, CardInterface>>;
