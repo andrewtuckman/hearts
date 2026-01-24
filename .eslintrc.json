@@ -2,8 +2,16 @@
   "extends": ["react-app", "react-app/jest"],
   "rules": {
     // enforce no space before function parentheses (use TS rule to avoid plugin conflicts)
+    // allow space for async arrow functions
     "space-before-function-paren": "off",
-    "@typescript-eslint/space-before-function-paren": ["error", "never"],
+    "@typescript-eslint/space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
 
     // disallow trailing whitespace at the ends of lines
     "no-trailing-spaces": "error",
