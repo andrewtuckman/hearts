@@ -31,6 +31,7 @@ This game uses images from [The Public Domain Review](https://publicdomainreview
 * Hearts: [The Lens of Desire: Eye Miniatures (ca. 1790–1810)](https://publicdomainreview.org/collection/eye-miniatures/)
 * Spades: [Prophecies of apocalypse (ca. 1827–61)](https://pdimagearchive.org/images/63261fca-78ba-4b7e-b2f0-ab4505c4d35e/)
 * Diamonds: [The Cat’s Maew: Thai Treatise on Auspicious Felines (19th Century)](https://publicdomainreview.org/collection/tamra-maew/)
+* Clubs: [The Art of Book Covers (1820–1914)](https://publicdomainreview.org/collection/the-art-of-book-covers-1820-1914/)
 
 ## Game Rules
 
