@@ -41,7 +41,10 @@ export class SimpleBot {
     );
 
     if (validCards.length === 0) {
-      throw new Error('No valid cards to play');
+      throw new Error(
+        'No valid cards to play:' +
+          JSON.stringify({ hand, trick, bloodDrawn, isFirstTrick })
+      );
     }
 
     // Determine if we are leading (starting the trick)

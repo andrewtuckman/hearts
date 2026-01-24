@@ -72,7 +72,7 @@ function filterInvalidCards(
   isFirstTrick: boolean,
   isLeading: boolean
 ): Card[] {
-  return cards.filter((card) => {
+  const filtered = cards.filter((card) => {
     // Cannot play hearts before blood is drawn
     if (!bloodDrawn && card.suit === Suits.HEARTS) {
       return false;
@@ -92,6 +92,13 @@ function filterInvalidCards(
 
     return true;
   });
+
+  // If no legal cards, player must break blood
+  if (filtered.length === 0) {
+    return cards;
+  }
+
+  return filtered;
 }
 
 /**
