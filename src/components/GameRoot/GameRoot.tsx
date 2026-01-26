@@ -28,21 +28,7 @@ export const GameRoot: React.FC = () => {
    */
   const [playOrder] = useState<PID[]>(['west', 'north', 'east']);
 
-  /**
-   * Player hand (bottom)
-   */
-  const [playerHand, setPlayerHand] = useState<HandCard[]>(
-    Ranks.map((rank) => ({
-      id: `diamonds-${rank}`,
-      suit: Suits.DIAMONDS,
-      rank,
-      playable: true,
-    }))
-  );
-
-  /**
-   * Opponent hands (face-down) - track remaining cards
-   */
+  const [playerHand, setPlayerHand] = useState<HandCard[]>([]);
   const [opponentHands, setOpponentHands] = useState({
     north: Array.from({ length: 13 }, (_, i) => ({ id: `n-${i}` })),
     east: Array.from({ length: 13 }, (_, i) => ({ id: `e-${i}` })),
@@ -53,10 +39,10 @@ export const GameRoot: React.FC = () => {
    * Actual hands for bots (Card objects, not UI HandCard)
    */
   const [hands, setHands] = useState<Record<PID, Card[]>>({
-    north: Ranks.map((rank) => ({ suit: Suits.CLUBS, rank })),
-    east: Ranks.map((rank) => ({ suit: Suits.HEARTS, rank })),
-    west: Ranks.map((rank) => ({ suit: Suits.SPADES, rank })),
-    south: Ranks.map((rank) => ({ suit: Suits.DIAMONDS, rank })),
+    north: [],
+    east: [],
+    south: [],
+    west: [],
   });
 
   /**
@@ -73,17 +59,14 @@ export const GameRoot: React.FC = () => {
   });
 
   const dealNewHand = () => {
-    // 1. Create + shuffle deck
     const deck = shuffle(createDeck());
 
-    // 2. Deal cards
     const dealtHands: Record<PID, Card[]> = {
       north: [],
       east: [],
       south: [],
       west: [],
     };
-
     deck.forEach((card, index) => {
       const pid: PID = ['north', 'east', 'south', 'west'][index % 4] as PID;
       dealtHands[pid].push(card);
@@ -93,8 +76,6 @@ export const GameRoot: React.FC = () => {
         ? RanksOrder[a.rank] - RanksOrder[b.rank]
         : a.suit.localeCompare(b.suit)
     );
-
-    // 3. Update internal hands (game logic)
     setHands(dealtHands);
 
     // 4. Update player UI hand
