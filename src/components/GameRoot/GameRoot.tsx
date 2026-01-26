@@ -3,11 +3,12 @@ import Hand from '../Hand/Hand';
 import { HandCard } from '../../models/types';
 import OpponentHand from '../Hand/OpponentHand';
 import Trick, { TrickState } from '../Trick/Trick';
-import { Suits, Ranks } from '../../models/constants';
+import { Suits, Ranks, RanksOrder } from '../../models/constants';
 import { PID } from '../../models/types';
 import { SimpleBot } from '../../game/ai/simpleBot';
 import { Trick as TrickClass, Card } from '../../models/classes';
 import { resolveTrick } from '../../game/logic/trick';
+import { createDeck, shuffle } from '../../game/logic/deck';
 import './GameRoot.css';
 
 const PLAYER_PID: PID = 'south';
@@ -70,6 +71,54 @@ export const GameRoot: React.FC = () => {
     south: 0,
     west: 0,
   });
+
+  const dealNewHand = () => {
+    // 1. Create + shuffle deck
+    const deck = shuffle(createDeck());
+
+    // 2. Deal cards
+    const dealtHands: Record<PID, Card[]> = {
+      north: [],
+      east: [],
+      south: [],
+      west: [],
+    };
+
+    deck.forEach((card, index) => {
+      const pid: PID = ['north', 'east', 'south', 'west'][index % 4] as PID;
+      dealtHands[pid].push(card);
+    });
+    dealtHands.south.sort((a, b) =>
+      a.suit === b.suit
+        ? RanksOrder[a.rank] - RanksOrder[b.rank]
+        : a.suit.localeCompare(b.suit)
+    );
+
+    // 3. Update internal hands (game logic)
+    setHands(dealtHands);
+
+    // 4. Update player UI hand
+    setPlayerHand(
+      dealtHands.south.map((card) => ({
+        id: `${card.suit}-${card.rank}`,
+        suit: card.suit,
+        rank: card.rank,
+        playable: true,
+      }))
+    );
+
+    // 5. Update opponent UI hands (counts only)
+    setOpponentHands({
+      north: dealtHands.north.map((_, i) => ({ id: `n-${i}` })),
+      east: dealtHands.east.map((_, i) => ({ id: `e-${i}` })),
+      west: dealtHands.west.map((_, i) => ({ id: `w-${i}` })),
+    });
+
+    // 6. Reset trick + state
+    setTrick({});
+    setLeaderPID(null);
+    setBloodDrawn(false);
+  };
 
   /**
    * Player plays a card
@@ -164,6 +213,13 @@ export const GameRoot: React.FC = () => {
       }
     }
   };
+
+  /**
+   * Start new hand on component mount
+   */
+  useEffect(() => {
+    dealNewHand();
+  }, []);
 
   /**
    * Trigger bot plays when player plays a card
