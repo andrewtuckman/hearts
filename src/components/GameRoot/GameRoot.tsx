@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Hand from '../Hand/Hand';
-import { HandCard } from '../../models/types';
 import OpponentHand from '../Hand/OpponentHand';
 import Trick, { TrickState } from '../Trick/Trick';
+import { HandCard } from '../../models/types';
 import { Suits, Ranks, RanksOrder } from '../../models/constants';
+import { Trick as TrickClass, Card } from '../../models/classes';
 import { PID } from '../../models/types';
 import { SimpleBot } from '../../game/ai/simpleBot';
-import { Trick as TrickClass, Card } from '../../models/classes';
 import { resolveTrick } from '../../game/logic/trick';
 import { createDeck, shuffle } from '../../game/logic/deck';
 import './GameRoot.css';
