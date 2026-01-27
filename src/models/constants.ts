@@ -1,3 +1,5 @@
+import { PID } from "./types";
+
 export const LOSING_SCORE = 100;
 export const SHOOT_THE_MOON_SCORE = 26;
 
@@ -14,6 +16,13 @@ export const PIDs = {
   SOUTH: 'south',
   WEST: 'west',
 } as const;
+
+export const TURN_ORDER: PID[] = [
+  PIDs.NORTH,
+  PIDs.EAST,
+  PIDs.SOUTH,
+  PIDs.WEST,
+];
 
 export const Ranks = [
   '2',

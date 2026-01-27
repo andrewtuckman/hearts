@@ -3,12 +3,13 @@ import Hand from '../Hand/Hand';
 import OpponentHand from '../Hand/OpponentHand';
 import Trick, { TrickState } from '../Trick/Trick';
 import { HandCard } from '../../models/types';
-import { Suits, Ranks, RanksOrder } from '../../models/constants';
+import { RanksOrder } from '../../models/constants';
 import { Trick as TrickClass, Card } from '../../models/classes';
 import { PID } from '../../models/types';
 import { SimpleBot } from '../../game/ai/simpleBot';
 import { resolveTrick } from '../../game/logic/trick';
 import { createDeck, shuffle } from '../../game/logic/deck';
+import { getPlayOrder } from '../../utils/utils';
 import './GameRoot.css';
 
 const PLAYER_PID: PID = 'south';
@@ -22,11 +23,6 @@ export const GameRoot: React.FC = () => {
     east: new SimpleBot('east', 'East Bot'),
     west: new SimpleBot('west', 'West Bot'),
   });
-
-  /**
-   * Play order for bots after player plays
-   */
-  const [playOrder] = useState<PID[]>(['west', 'north', 'east']);
 
   const [playerHand, setPlayerHand] = useState<HandCard[]>([]);
   const [opponentHands, setOpponentHands] = useState({
@@ -126,7 +122,7 @@ export const GameRoot: React.FC = () => {
     }));
 
     // Set as leader if this is the first card
-    if (leaderPID === null) {
+    if (Object.keys(trick).length === 0) {
       setLeaderPID(PLAYER_PID);
     }
   };
@@ -141,7 +137,13 @@ export const GameRoot: React.FC = () => {
     // Maintain local copy of hands to track cards as they're played
     const currentHands = { ...hands };
 
-    for (const pid of playOrder) {
+    if (!leaderPID) return;
+
+    const order = getPlayOrder(leaderPID).filter(
+      (pid) => pid !== PLAYER_PID
+    );
+
+    for (const pid of order) {
       if (!currentTrick[pid]) {
         // Small delay for visual feedback
         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -207,7 +209,11 @@ export const GameRoot: React.FC = () => {
    */
   useEffect(() => {
     // Only trigger if player has played and not all 4 cards are played
-    if (trick.south !== undefined && Object.keys(trick).length < 4) {
+    if (
+      leaderPID &&
+      trick[leaderPID] &&
+      Object.keys(trick).length < 4
+    ) {
       playRemainingCards();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

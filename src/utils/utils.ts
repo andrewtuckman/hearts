@@ -1,4 +1,4 @@
-import { PIDs } from '../models/constants';
+import { PIDs, TURN_ORDER } from '../models/constants';
 import { PID } from '../models/types';
 
 /**
@@ -15,4 +15,12 @@ export function createPlayerDict(initValue: any): Record<PID, any> {
 
 export function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function getPlayOrder(leader: PID): PID[] {
+  const startIdx = TURN_ORDER.indexOf(leader);
+  return [
+    ...TURN_ORDER.slice(startIdx),
+    ...TURN_ORDER.slice(0, startIdx),
+  ];
 }
