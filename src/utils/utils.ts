@@ -19,8 +19,5 @@ export function getRandomInt(min: number, max: number): number {
 
 export function getPlayOrder(leader: PID): PID[] {
   const startIdx = TURN_ORDER.indexOf(leader);
-  return [
-    ...TURN_ORDER.slice(startIdx),
-    ...TURN_ORDER.slice(0, startIdx),
-  ];
+  return [...TURN_ORDER.slice(startIdx), ...TURN_ORDER.slice(0, startIdx)];
 }

@@ -139,9 +139,7 @@ export const GameRoot: React.FC = () => {
 
     if (!leaderPID) return;
 
-    const order = getPlayOrder(leaderPID).filter(
-      (pid) => pid !== PLAYER_PID
-    );
+    const order = getPlayOrder(leaderPID).filter((pid) => pid !== PLAYER_PID);
 
     for (const pid of order) {
       if (!currentTrick[pid]) {
@@ -209,11 +207,7 @@ export const GameRoot: React.FC = () => {
    */
   useEffect(() => {
     // Only trigger if player has played and not all 4 cards are played
-    if (
-      leaderPID &&
-      trick[leaderPID] &&
-      Object.keys(trick).length < 4
-    ) {
+    if (leaderPID && trick[leaderPID] && Object.keys(trick).length < 4) {
       playRemainingCards();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
