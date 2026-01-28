@@ -19,10 +19,16 @@ function generateCardIds(count: number, pid: PID): OpponentCard[] {
   }));
 }
 
-export const OpponentHand: React.FC<OpponentHandProps> = ({ pid, cardCount }) => {
+export const OpponentHand: React.FC<OpponentHandProps> = ({
+  pid,
+  cardCount,
+}) => {
   return (
     <div className={`opponent-hand opponent-hand--${pid}`}>
-      <HandBase cards={generateCardIds(cardCount, pid)} renderCard={() => <CardBack size="small" />} />
+      <HandBase
+        cards={generateCardIds(cardCount, pid)}
+        renderCard={() => <CardBack size="small" />}
+      />
     </div>
   );
 };
