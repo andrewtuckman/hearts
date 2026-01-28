@@ -10,13 +10,19 @@ interface OpponentCard {
 
 interface OpponentHandProps {
   pid: PID;
-  cards: OpponentCard[];
+  cardCount: number;
 }
 
-export const OpponentHand: React.FC<OpponentHandProps> = ({ pid, cards }) => {
+function generateCardIds(count: number, pid: PID): OpponentCard[] {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `${pid}-card-${i}`,
+  }));
+}
+
+export const OpponentHand: React.FC<OpponentHandProps> = ({ pid, cardCount }) => {
   return (
     <div className={`opponent-hand opponent-hand--${pid}`}>
-      <HandBase cards={cards} renderCard={() => <CardBack size="small" />} />
+      <HandBase cards={generateCardIds(cardCount, pid)} renderCard={() => <CardBack size="small" />} />
     </div>
   );
 };

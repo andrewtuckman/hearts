@@ -25,14 +25,14 @@ export const GameRoot: React.FC = () => {
   });
 
   const [playerHand, setPlayerHand] = useState<HandCard[]>([]);
-  const [opponentHands, setOpponentHands] = useState({
-    north: Array.from({ length: 13 }, (_, i) => ({ id: `n-${i}` })),
-    east: Array.from({ length: 13 }, (_, i) => ({ id: `e-${i}` })),
-    west: Array.from({ length: 13 }, (_, i) => ({ id: `w-${i}` })),
+  const [opponentHandCount, setOpponentHandCount] = useState({
+    north: 0,
+    east: 0,
+    west: 0,
   });
 
   /**
-   * Actual hands for bots (Card objects, not UI HandCard)
+   * Actual hands (Card objects, not UI HandCard)
    */
   const [hands, setHands] = useState<Record<PID, Card[]>>({
     north: [],
@@ -85,10 +85,10 @@ export const GameRoot: React.FC = () => {
     );
 
     // 5. Update opponent UI hands (counts only)
-    setOpponentHands({
-      north: dealtHands.north.map((_, i) => ({ id: `n-${i}` })),
-      east: dealtHands.east.map((_, i) => ({ id: `e-${i}` })),
-      west: dealtHands.west.map((_, i) => ({ id: `w-${i}` })),
+    setOpponentHandCount({
+      north: 13,
+      east: 13,
+      west: 13,
     });
 
     // 6. Reset trick + state
@@ -187,9 +187,9 @@ export const GameRoot: React.FC = () => {
         }));
 
         // Update opponent hand display (just show fewer cards)
-        setOpponentHands((prev) => ({
+        setOpponentHandCount((prev) => ({
           ...prev,
-          [pid]: prev[pid as keyof typeof prev].slice(0, -1),
+          [pid]: prev[pid as keyof typeof prev] - 1,
         }));
       }
     }
@@ -255,9 +255,9 @@ export const GameRoot: React.FC = () => {
   return (
     <div className="game-root">
       {/* Opponents */}
-      <OpponentHand pid="north" cards={opponentHands.north} />
-      <OpponentHand pid="west" cards={opponentHands.west} />
-      <OpponentHand pid="east" cards={opponentHands.east} />
+      <OpponentHand pid="north" cardCount={opponentHandCount.north} />
+      <OpponentHand pid="west" cardCount={opponentHandCount.west} />
+      <OpponentHand pid="east" cardCount={opponentHandCount.east} />
 
       {/* Center trick */}
       <Trick leaderPID={leaderPID} trick={trick} />
