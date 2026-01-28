@@ -267,7 +267,15 @@ export const GameRoot: React.FC = () => {
 
       {/* Display scores (optional) */}
       <div
-        style={{ position: 'absolute', top: 10, right: 10, fontSize: '12px' }}
+        style={{
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          fontSize: '22px',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          padding: '10px',
+          borderRadius: '8px',
+        }}
       >
         <div>North: {scores.north}</div>
         <div>South: {scores.south}</div>
