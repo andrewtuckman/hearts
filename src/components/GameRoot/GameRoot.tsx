@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Hand from '../Hand/Hand';
 import OpponentHand from '../Hand/OpponentHand';
+import { Scoreboard } from '../Scoreboard/Scoreboard';
 import Trick, { TrickState } from '../Trick/Trick';
 import { HandCard } from '../../models/types';
 import { RanksOrder } from '../../models/constants';
@@ -266,21 +267,8 @@ export const GameRoot: React.FC = () => {
       <Hand cards={playerHand} onPlayCard={handlePlayCard} />
 
       {/* Display scores (optional) */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 10,
-          right: 10,
-          fontSize: '22px',
-          backgroundColor: 'rgba(255, 255, 255, 0.8)',
-          padding: '10px',
-          borderRadius: '8px',
-        }}
-      >
-        <div>North: {scores.north}</div>
-        <div>South: {scores.south}</div>
-        <div>East: {scores.east}</div>
-        <div>West: {scores.west}</div>
+      <div className="scoreboard-container" style={{ position: 'absolute', top: 10, right: 10 }}>
+        <Scoreboard scores={scores} />
       </div>
     </div>
   );
