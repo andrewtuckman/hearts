@@ -267,7 +267,10 @@ export const GameRoot: React.FC = () => {
       <Hand cards={playerHand} onPlayCard={handlePlayCard} />
 
       {/* Display scores (optional) */}
-      <div className="scoreboard-container" style={{ position: 'absolute', top: 10, right: 10 }}>
+      <div
+        className="scoreboard-container"
+        style={{ position: 'absolute', top: 10, right: 10 }}
+      >
         <Scoreboard scores={scores} />
       </div>
     </div>
