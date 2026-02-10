@@ -16,9 +16,6 @@ import './GameRoot.css';
 const PLAYER_PID: PID = 'south';
 
 export const GameRoot: React.FC = () => {
-  /**
-   * Initialize bots for opponent players
-   */
   const [botPlayers] = useState({
     north: new SimpleBot('north', 'North Bot'),
     east: new SimpleBot('east', 'East Bot'),
@@ -42,9 +39,6 @@ export const GameRoot: React.FC = () => {
     west: [],
   });
 
-  /**
-   * Game state
-   */
   const [bloodDrawn, setBloodDrawn] = useState(false);
   const [trick, setTrick] = useState<TrickState>({});
   const [leaderPID, setLeaderPID] = useState<PID | null>(null);
@@ -64,18 +58,20 @@ export const GameRoot: React.FC = () => {
       south: [],
       west: [],
     };
+
     deck.forEach((card, index) => {
       const pid: PID = ['north', 'east', 'south', 'west'][index % 4] as PID;
       dealtHands[pid].push(card);
     });
+
     dealtHands.south.sort((a, b) =>
       a.suit === b.suit
         ? RanksOrder[a.rank] - RanksOrder[b.rank]
         : a.suit.localeCompare(b.suit)
     );
+
     setHands(dealtHands);
 
-    // 4. Update player UI hand
     setPlayerHand(
       dealtHands.south.map((card) => ({
         id: `${card.suit}-${card.rank}`,
@@ -85,57 +81,42 @@ export const GameRoot: React.FC = () => {
       }))
     );
 
-    // 5. Update opponent UI hands (counts only)
     setOpponentHandCount({
       north: 13,
       east: 13,
       west: 13,
     });
 
-    // 6. Reset trick + state
     setTrick({});
-    setLeaderPID(null);
     setBloodDrawn(false);
+    const twoOfClubsHolder = (Object.keys(dealtHands) as PID[]).find((pid) =>
+      dealtHands[pid].some((c) => c.suit === 'clubs' && c.rank === '2')
+    ) as PID;
+
+    setLeaderPID(twoOfClubsHolder);
   };
 
-  /**
-   * Player plays a card
-   */
   const handlePlayCard = (card: HandCard) => {
-    // Remove from hand
     setPlayerHand((prev) => prev.filter((c) => c.id !== card.id));
 
-    // Remove from internal hand state
     setHands((prev) => ({
       ...prev,
-      [PLAYER_PID]: prev[PLAYER_PID].filter(
+      south: prev.south.filter(
         (c) => !(c.suit === card.suit && c.rank === card.rank)
       ),
     }));
 
-    // Add to trick
     setTrick((prev) => ({
       ...prev,
-      [PLAYER_PID]: {
+      south: {
         suit: card.suit,
         rank: card.rank,
       },
     }));
-
-    // Set as leader if this is the first card
-    if (Object.keys(trick).length === 0) {
-      setLeaderPID(PLAYER_PID);
-    }
   };
 
-  /**
-   * Play remaining cards in turn order
-   */
   const playRemainingCards = async () => {
-    // Build the current trick state (accumulate as we play)
     const currentTrick: TrickState = { ...trick };
-
-    // Maintain local copy of hands to track cards as they're played
     const currentHands = { ...hands };
 
     if (!leaderPID) return;
@@ -144,20 +125,18 @@ export const GameRoot: React.FC = () => {
 
     for (const pid of order) {
       if (!currentTrick[pid]) {
-        // Small delay for visual feedback
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         const bot = botPlayers[pid as keyof typeof botPlayers];
-        const botHand = currentHands[pid]; // Use accumulated hands, not state
+        const botHand = currentHands[pid];
 
-        // Build Trick object for bot to evaluate (use accumulated trick state)
         const trickObj: TrickClass = {
           leaderPID,
           cards: {
-            north: (currentTrick.north as Card) || null,
-            east: (currentTrick.east as Card) || null,
-            south: (currentTrick.south as Card) || null,
-            west: (currentTrick.west as Card) || null,
+            north: currentTrick.north || null,
+            east: currentTrick.east || null,
+            south: currentTrick.south || null,
+            west: currentTrick.west || null,
           },
         };
 
@@ -165,21 +144,16 @@ export const GameRoot: React.FC = () => {
           botHand,
           trickObj,
           bloodDrawn,
-          Object.keys(currentTrick).length === 1
+          Object.keys(currentTrick).length === 0
         );
 
-        // Update accumulated trick (for next bot's evaluation)
         currentTrick[pid] = chosenCard;
-
-        // Update accumulated hands (for next bot's hand)
         currentHands[pid] = botHand.filter(
           (c) => !(c.suit === chosenCard.suit && c.rank === chosenCard.rank)
         );
 
-        // Update trick UI
         setTrick((prev) => ({ ...prev, [pid]: chosenCard }));
 
-        // Remove card from bot's hand (state update)
         setHands((prev) => ({
           ...prev,
           [pid]: prev[pid].filter(
@@ -187,7 +161,6 @@ export const GameRoot: React.FC = () => {
           ),
         }));
 
-        // Update opponent hand display (just show fewer cards)
         setOpponentHandCount((prev) => ({
           ...prev,
           [pid]: prev[pid as keyof typeof prev] - 1,
@@ -196,30 +169,29 @@ export const GameRoot: React.FC = () => {
     }
   };
 
-  /**
-   * Start new hand on component mount
-   */
   useEffect(() => {
     dealNewHand();
   }, []);
 
-  /**
-   * Trigger bot plays when player plays a card
-   */
+  // If a bot is the leader and the trick is empty, let it lead
   useEffect(() => {
-    // Only trigger if player has played and not all 4 cards are played
+    if (
+      leaderPID &&
+      leaderPID !== PLAYER_PID &&
+      Object.keys(trick).length === 0
+    ) {
+      playRemainingCards();
+    }
+  }, [leaderPID]);
+
+  useEffect(() => {
     if (leaderPID && trick[leaderPID] && Object.keys(trick).length < 4) {
       playRemainingCards();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trick.south]);
 
-  /**
-   * Handle trick completion
-   */
   useEffect(() => {
-    if (Object.keys(trick).length === 4) {
-      // Resolve trick
+    if (Object.keys(trick).length === 4 && leaderPID) {
       const trickObj: TrickClass = {
         leaderPID,
         cards: {
@@ -232,41 +204,29 @@ export const GameRoot: React.FC = () => {
 
       const { winningPID, points } = resolveTrick(trickObj);
 
-      // Update scores
       setScores((prev) => ({
         ...prev,
         [winningPID]: prev[winningPID] + points,
       }));
 
-      // Update blood drawn if points were taken
-      if (points > 0) {
-        setBloodDrawn(true);
-      }
+      if (points > 0) setBloodDrawn(true);
 
-      // Set next leader
       setLeaderPID(winningPID);
 
-      // Reset trick after brief delay
-      setTimeout(() => {
-        setTrick({});
-      }, 1500);
+      setTimeout(() => setTrick({}), 1500);
     }
-  }, [trick, leaderPID]);
+  }, [trick]);
 
   return (
     <div className="game-root">
-      {/* Opponents */}
       <OpponentHand pid="north" cardCount={opponentHandCount.north} />
       <OpponentHand pid="west" cardCount={opponentHandCount.west} />
       <OpponentHand pid="east" cardCount={opponentHandCount.east} />
 
-      {/* Center trick */}
       <Trick leaderPID={leaderPID} trick={trick} />
 
-      {/* Player hand */}
       <Hand cards={playerHand} onPlayCard={handlePlayCard} />
 
-      {/* Display scores (optional) */}
       <div
         className="scoreboard-container"
         style={{ position: 'absolute', top: 10, right: 10 }}
