@@ -161,7 +161,10 @@ export const GameRoot: React.FC = () => {
 
       setTrick((prev) => ({ ...prev, [pid]: chosenCard }));
       setHands((prev) => ({ ...prev, [pid]: currentHands[pid] }));
-      setOpponentHandCount((prev) => ({ ...prev, [pid]: prev[pid as keyof typeof prev] - 1 }));
+      setOpponentHandCount((prev) => ({
+        ...prev,
+        [pid]: prev[pid as keyof typeof prev] - 1,
+      }));
     }
   };
 
