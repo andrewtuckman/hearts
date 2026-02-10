@@ -41,6 +41,7 @@ export const GameRoot: React.FC = () => {
 
   const [bloodDrawn, setBloodDrawn] = useState(false);
   const [trick, setTrick] = useState<TrickState>({});
+  const [isFirstTrick, setIsFirstTrick] = useState(true);
   const [leaderPID, setLeaderPID] = useState<PID | null>(null);
   const [scores, setScores] = useState<Record<PID, number>>({
     north: 0,
@@ -89,6 +90,8 @@ export const GameRoot: React.FC = () => {
 
     setTrick({});
     setBloodDrawn(false);
+    setIsFirstTrick(true);
+
     const twoOfClubsHolder = (Object.keys(dealtHands) as PID[]).find((pid) =>
       dealtHands[pid].some((c) => c.suit === 'clubs' && c.rank === '2')
     ) as PID;
@@ -108,28 +111,31 @@ export const GameRoot: React.FC = () => {
 
     setTrick((prev) => ({
       ...prev,
-      south: {
-        suit: card.suit,
-        rank: card.rank,
-      },
+      south: { suit: card.suit, rank: card.rank },
     }));
   };
 
   const playRemainingCards = async () => {
-    const currentTrick: TrickState = { ...trick };
-    const currentHands = { ...hands };
-
     if (!leaderPID) return;
 
+    const currentTrick = { ...trick };
+    const currentHands = { ...hands };
     const order = getPlayOrder(leaderPID).filter((pid) => pid !== PLAYER_PID);
 
     for (const pid of order) {
-      if (!currentTrick[pid]) {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+      if (currentTrick[pid]) continue;
 
-        const bot = botPlayers[pid as keyof typeof botPlayers];
-        const botHand = currentHands[pid];
+      await new Promise((r) => setTimeout(r, 500));
 
+      const bot = botPlayers[pid as keyof typeof botPlayers];
+      const botHand = currentHands[pid];
+
+      let chosenCard: Card;
+
+      // FORCE 2♣ on first trick lead
+      if (isFirstTrick && Object.keys(currentTrick).length === 0) {
+        chosenCard = botHand.find((c) => c.suit === 'clubs' && c.rank === '2')!;
+      } else {
         const trickObj: TrickClass = {
           leaderPID,
           cards: {
@@ -140,32 +146,22 @@ export const GameRoot: React.FC = () => {
           },
         };
 
-        const chosenCard = bot.chooseCard(
+        chosenCard = bot.chooseCard(
           botHand,
           trickObj,
           bloodDrawn,
           Object.keys(currentTrick).length === 0
         );
-
-        currentTrick[pid] = chosenCard;
-        currentHands[pid] = botHand.filter(
-          (c) => !(c.suit === chosenCard.suit && c.rank === chosenCard.rank)
-        );
-
-        setTrick((prev) => ({ ...prev, [pid]: chosenCard }));
-
-        setHands((prev) => ({
-          ...prev,
-          [pid]: prev[pid].filter(
-            (c) => !(c.suit === chosenCard.suit && c.rank === chosenCard.rank)
-          ),
-        }));
-
-        setOpponentHandCount((prev) => ({
-          ...prev,
-          [pid]: prev[pid as keyof typeof prev] - 1,
-        }));
       }
+
+      currentTrick[pid] = chosenCard;
+      currentHands[pid] = botHand.filter(
+        (c) => !(c.suit === chosenCard.suit && c.rank === chosenCard.rank)
+      );
+
+      setTrick((prev) => ({ ...prev, [pid]: chosenCard }));
+      setHands((prev) => ({ ...prev, [pid]: currentHands[pid] }));
+      setOpponentHandCount((prev) => ({ ...prev, [pid]: prev[pid as keyof typeof prev] - 1 }));
     }
   };
 
@@ -173,7 +169,20 @@ export const GameRoot: React.FC = () => {
     dealNewHand();
   }, []);
 
-  // If a bot is the leader and the trick is empty, let it lead
+  // Human must-play-2♣ enforcement
+  useEffect(() => {
+    if (isFirstTrick && leaderPID === PLAYER_PID) {
+      setPlayerHand((prev) =>
+        prev.map((c) => ({
+          ...c,
+          playable: c.suit === 'clubs' && c.rank === '2',
+        }))
+      );
+    } else {
+      setPlayerHand((prev) => prev.map((c) => ({ ...c, playable: true })));
+    }
+  }, [leaderPID, isFirstTrick]);
+
   useEffect(() => {
     if (
       leaderPID &&
@@ -212,6 +221,7 @@ export const GameRoot: React.FC = () => {
       if (points > 0) setBloodDrawn(true);
 
       setLeaderPID(winningPID);
+      setIsFirstTrick(false);
 
       setTimeout(() => setTrick({}), 1500);
     }
@@ -224,7 +234,6 @@ export const GameRoot: React.FC = () => {
       <OpponentHand pid="east" cardCount={opponentHandCount.east} />
 
       <Trick leaderPID={leaderPID} trick={trick} />
-
       <Hand cards={playerHand} onPlayCard={handlePlayCard} />
 
       <div
