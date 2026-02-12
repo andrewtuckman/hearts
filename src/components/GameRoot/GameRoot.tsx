@@ -42,6 +42,7 @@ export const GameRoot: React.FC = () => {
   const [bloodDrawn, setBloodDrawn] = useState(false);
   const [trick, setTrick] = useState<TrickState>({});
   const [isFirstTrick, setIsFirstTrick] = useState(true);
+  const [currentTurnPID, setCurrentTurnPID] = useState<PID | null>(null);
   const [leaderPID, setLeaderPID] = useState<PID | null>(null);
   const [scores, setScores] = useState<Record<PID, number>>({
     north: 0,
@@ -115,59 +116,6 @@ export const GameRoot: React.FC = () => {
     }));
   };
 
-  const playRemainingCards = async () => {
-    if (!leaderPID) return;
-
-    const currentTrick = { ...trick };
-    const currentHands = { ...hands };
-    const order = getPlayOrder(leaderPID).filter((pid) => pid !== PLAYER_PID);
-
-    for (const pid of order) {
-      if (currentTrick[pid]) continue;
-
-      await new Promise((r) => setTimeout(r, 500));
-
-      const bot = botPlayers[pid as keyof typeof botPlayers];
-      const botHand = currentHands[pid];
-
-      let chosenCard: Card;
-
-      // FORCE 2♣ on first trick lead
-      if (isFirstTrick && Object.keys(currentTrick).length === 0) {
-        chosenCard = botHand.find((c) => c.suit === 'clubs' && c.rank === '2')!;
-      } else {
-        const trickObj: TrickClass = {
-          leaderPID,
-          cards: {
-            north: currentTrick.north || null,
-            east: currentTrick.east || null,
-            south: currentTrick.south || null,
-            west: currentTrick.west || null,
-          },
-        };
-
-        chosenCard = bot.chooseCard(
-          botHand,
-          trickObj,
-          bloodDrawn,
-          Object.keys(currentTrick).length === 0
-        );
-      }
-
-      currentTrick[pid] = chosenCard;
-      currentHands[pid] = botHand.filter(
-        (c) => !(c.suit === chosenCard.suit && c.rank === chosenCard.rank)
-      );
-
-      setTrick((prev) => ({ ...prev, [pid]: chosenCard }));
-      setHands((prev) => ({ ...prev, [pid]: currentHands[pid] }));
-      setOpponentHandCount((prev) => ({
-        ...prev,
-        [pid]: prev[pid as keyof typeof prev] - 1,
-      }));
-    }
-  };
-
   useEffect(() => {
     dealNewHand();
   }, []);
@@ -187,23 +135,80 @@ export const GameRoot: React.FC = () => {
   }, [leaderPID, isFirstTrick]);
 
   useEffect(() => {
-    if (
-      leaderPID &&
-      leaderPID !== PLAYER_PID &&
-      Object.keys(trick).length === 0
-    ) {
-      playRemainingCards();
+    if (leaderPID && Object.keys(trick).length === 0) {
+      setCurrentTurnPID(leaderPID);
     }
   }, [leaderPID]);
 
   useEffect(() => {
-    if (leaderPID && trick[leaderPID] && Object.keys(trick).length < 4) {
-      playRemainingCards();
-    }
-  }, [trick.south]);
+    if (!currentTurnPID) return;
+    if (currentTurnPID === PLAYER_PID) return;
+
+    const playBotCard = async () => {
+      await new Promise((r) => setTimeout(r, 500));
+
+      const bot = botPlayers[currentTurnPID as keyof typeof botPlayers];
+      const botHand = hands[currentTurnPID];
+
+      let chosenCard: Card;
+
+      // First trick 2♣ enforcement
+      if (isFirstTrick && Object.keys(trick).length === 0) {
+        chosenCard = botHand.find((c) => c.suit === 'clubs' && c.rank === '2')!;
+      } else {
+        const trickObj: TrickClass = {
+          leaderPID: leaderPID!,
+          cards: {
+            north: trick.north || null,
+            east: trick.east || null,
+            south: trick.south || null,
+            west: trick.west || null,
+          },
+        };
+
+        chosenCard = bot.chooseCard(
+          botHand,
+          trickObj,
+          bloodDrawn,
+          Object.keys(trick).length === 0
+        );
+      }
+
+      setHands((prev) => ({
+        ...prev,
+        [currentTurnPID]: prev[currentTurnPID].filter(
+          (c) => !(c.suit === chosenCard.suit && c.rank === chosenCard.rank)
+        ),
+      }));
+
+      setOpponentHandCount((prev) => ({
+        ...prev,
+        [currentTurnPID]: prev[currentTurnPID] - 1,
+      }));
+
+      setTrick((prev) => ({
+        ...prev,
+        [currentTurnPID]: chosenCard,
+      }));
+    };
+
+    playBotCard();
+  }, [currentTurnPID]);
 
   useEffect(() => {
-    if (Object.keys(trick).length === 4 && leaderPID) {
+    if (!leaderPID) return;
+
+    const order = getPlayOrder(leaderPID);
+    const played = Object.keys(trick);
+
+    // Trick not finished → advance to next player
+    if (played.length > 0 && played.length < 4) {
+      const nextPID = order[played.length];
+      setCurrentTurnPID(nextPID);
+    }
+
+    // Trick finished
+    if (played.length === 4) {
       const trickObj: TrickClass = {
         leaderPID,
         cards: {
@@ -223,10 +228,12 @@ export const GameRoot: React.FC = () => {
 
       if (points > 0) setBloodDrawn(true);
 
-      setLeaderPID(winningPID);
-      setIsFirstTrick(false);
-
-      setTimeout(() => setTrick({}), 1500);
+      setTimeout(() => {
+        setTrick({});
+        setLeaderPID(winningPID);
+        setCurrentTurnPID(winningPID);
+        setIsFirstTrick(false);
+      }, 1200);
     }
   }, [trick]);
 
