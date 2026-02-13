@@ -141,8 +141,7 @@ export const GameRoot: React.FC = () => {
   }, [leaderPID]);
 
   useEffect(() => {
-    if (!currentTurnPID) return;
-    if (currentTurnPID === PLAYER_PID) return;
+    if (!currentTurnPID || currentTurnPID === PLAYER_PID) return;
 
     const playBotCard = async () => {
       await new Promise((r) => setTimeout(r, 500));
